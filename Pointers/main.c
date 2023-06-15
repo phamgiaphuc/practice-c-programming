@@ -1,30 +1,35 @@
-// Program to calculate the sum of n numbers entered by the user
-
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
+
+#define SIZE 5
+
+void bubbleSort(int *, int);
+void swapElements(int *, int *);
 
 int main() {
-     int *ptr, i , n1, n2;
-     printf("Enter size: ");
-     scanf("%d", &n1);
-
-     ptr = (int*) malloc(n1 * sizeof(int));
-
-     printf("Addresses of previously allocated memory:\n");
-     for(i = 0; i < n1; ++i)
-     printf("%pc\n",ptr + i);
-
-     printf("\nEnter the new size: ");
-     scanf("%d", &n2);
-
-     // rellocating the memory
-     ptr = realloc(ptr, n2 * sizeof(int));
-
-     printf("Addresses of newly allocated memory:\n");
-     for(i = 0; i < n2; ++i)
-     printf("%pc\n", ptr + i);
-     
-     free(ptr);
-
+     int a[SIZE] = {3, 2, 4, 5, 1};
+     int i;
+     bubbleSort(a, SIZE);
+     for (; i < SIZE; i++) {
+          printf("%d ", *(a + i));
+     }
+     printf("\n");
      return 0;
+}
+
+void bubbleSort(int *array, int size) {
+     for (int i = 0; i < size; i++) {
+          for (int j = 0; j < size - 1; j++) {
+               if (array[j] > array[j + 1]) {
+                    swapElements(&array[j], &array[j + 1]);
+               }
+          }
+     }
+}
+
+void swapElements(int *aptr, int *bptr) {
+     int temp = *aptr;
+     *aptr = *bptr;
+     *bptr = temp;
 }
