@@ -14,3 +14,4 @@
 ## Project Details
 - [LabC](./LabC/README.md)  - C Laboratory Problems
 - [Pointers](./Pointers/README.md) - C Pointers
+- [School Lectures](./School%20Lectures/)
