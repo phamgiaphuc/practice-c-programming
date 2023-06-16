@@ -53,11 +53,23 @@ void combineArraysToPointer(int array1[], int array2[], int length_1, int length
           exit(0);
      }
 
+     // Combine arrays to pointer
      for (int i = 0; i < total_length; i++) {
           if (i < length_1) {
                *(ptr + i) = array1[i];
           } else {
                *(ptr + i) = array2[i - length_2];
+          }
+     }
+
+     // Sort the array/pointer
+     for (int i = 0; i < total_length; i++) {
+          for (int j = i + 1; j < total_length; j++) {
+               if (*(ptr + i) > *(ptr + j)) {
+                    int temp = *(ptr + i);
+                    *(ptr + i) = *(ptr + j);
+                    *(ptr + j) = temp;
+               }
           }
      }
 

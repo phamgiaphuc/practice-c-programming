@@ -20,9 +20,7 @@ int main() {
 
     printf("Sorted prime numbers in increasing order:\n");
     for (int i = 0; i < n; i++) {
-        if (isPrime(array[i])) {
-            printf("%d ", array[i]);
-        }
+        printf("%d ", array[i]);
     }
     printf("\n");
 
