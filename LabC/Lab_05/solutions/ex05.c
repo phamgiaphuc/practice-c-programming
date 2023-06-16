@@ -45,6 +45,12 @@ int main() {
     int minRow[100];
     findMinRow(matrix, minRow, m, n);
 
+    printf("The list of minimum numbers is: ");
+    for (int i = 0; i < m; i++) {
+        printf("%d ", minRow[i]);
+    }
+    printf("\n");
+
     int maxMin = findMaxMin(minRow, m);
 
     printf("The maximum number from the minimum elements of each row is: %d\n", maxMin);
