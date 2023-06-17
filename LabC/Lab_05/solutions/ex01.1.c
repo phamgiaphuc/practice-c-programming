@@ -51,10 +51,13 @@ void twoSum(int *ptr, int length, int result[], int target) {
           }
      }
 
-     printf("The result is: ");
-
-     for (int i = 0; i < 2; i++) {
-          printf("%d ", result[i]);
+     if (result[0] == 0 && result[1 == 0]) {
+          printf("No result!");
+     } else {
+          printf("The result is: ");
+          for (int i = 0; i < 2; i++) {
+               printf("%d ", result[i]);
+          }
      }
      
      printf("\n");
