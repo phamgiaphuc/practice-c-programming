@@ -54,12 +54,11 @@ void combineArraysToPointer(int array1[], int array2[], int length_1, int length
      }
 
      // Combine arrays to pointer
-     for (int i = 0; i < total_length; i++) {
-          if (i < length_1) {
-               *(ptr + i) = array1[i];
-          } else {
-               *(ptr + i) = array2[i - length_2];
-          }
+     for (int i = 0; i < length_1; i++) {
+          *(ptr + i) = array1[i];
+     }
+     for (int i = 0; i < length_2; i++) {
+          *(ptr + i + length_1) = array2[i];
      }
 
      // Sort the array/pointer
@@ -73,6 +72,12 @@ void combineArraysToPointer(int array1[], int array2[], int length_1, int length
           }
      }
 
+     printf("New array after sorted: ");
+     for (int i = 0; i < total_length; i++) {
+          printf("%d ", *(ptr + i));
+     }
+     printf("\n");
+
      // The median of sorted array
      medianOfArray(ptr, total_length);
 }
@@ -85,7 +90,7 @@ void medianOfArray(int *ptr, int total_length) {
      
      if ((total_length % 2) == 0) {
           median = (*(ptr + (position - 1)) + *(ptr + position)) / 2.0;
-          printf("The median of the sorted array is %f\n", median);
+          printf("The median of the sorted array is %.1f\n", median);
      } else {
           median = *(ptr + position);
           printf("The median of the sorted array is %.f\n", median);
