@@ -22,8 +22,8 @@ void sortDiagonals(int matrix[][100], int n) {
     }
 
     // Sort the second diagonal (decreasing order)
-    for (int i = 3, j = 0; i >= 0; i--, j++) {
-        for (int k = i - 1, z = j + 1; k >= 0; k--, z++) {
+    for (int i = n - 1, j = 0; j < n; i--, j++) {
+        for (int k = i - 1, z = j + 1; z < n; k--, z++) {
             if (matrix[i][j] < matrix[k][z]) {
                 int temp = matrix[i][j];
                 matrix[i][j] = matrix[k][z];
@@ -48,7 +48,7 @@ int main() {
     printf("Enter the value of n (even):\n");
     scanf("%d", &n);
 
-    int matrix[100][100];
+    int matrix[n][100];
     inputMatrix(matrix, n);
 
     sortDiagonals(matrix, n);
