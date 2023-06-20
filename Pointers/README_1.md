@@ -223,7 +223,20 @@ int main() {
 
 ## Dynamic Memory Allocation
 - To allocate memory dynamically, library functions are malloc(), calloc(), realloc() and free() are used. These functions are defined in the <stdlib.h> header file.
-### C malloc() = mememory allocation: size
+### sizeof()
+- When you use the sizeof operator on a pointer variable like array, it returns the size of the pointer itself, not the size of the allocated memory.
+```C
+int *ptr = (int*) malloc(10 * sizeof(int));
+     printf("%lu\n", sizeof(ptr)); // 8
+```
+- In this case, the size of ptr is 8 because you are running the code on a system where the size of a pointer is 8 bytes. Pointer sizes can vary depending on the platform and compiler being used. It is common for 64-bit systems to have 8-byte pointers.
+- To get the size of the allocated memory, you need to keep track of it separately. In your example, you allocated memory for an array of 10 integers, so the total size of the allocated memory would be 10 * sizeof(int).
+- If you want to print the size of the allocated memory, you should calculate it separately and then use printf to display it:
+```C
+printf("%lu\n", 10 * sizeof(int));
+```
+
+### malloc() = mememory allocation: size
 - The malloc() function allocates memory and leaves the memory uninitialized
 - Syntax:
 ```C
@@ -233,7 +246,7 @@ ptr = (castType*) malloc(size);
 ```C
 ptr = (float*) malloc(100 * sizeof(float)); // the size is 400 bytes
 ```
-### C calloc() = contiguous allocation: size + number of elements
+### calloc() = contiguous allocation: size + number of elements
 - The calloc() function allocates memory and initializes all bits to zero.
 - Syntax:
 ```C
@@ -243,13 +256,13 @@ ptr = (castType*)calloc(n, size);
 ```C
 ptr = (float*) calloc(25, sizeof(float)); // the size is 100 bytes and the number of element is 25
 ```
-### C free(): erasing unused memory
+### free(): erasing unused memory
 - Dynamically allocated memory created with either calloc() or malloc() doesn't get freed on their own. You must explicitly use free() to release the space.
 - Syntax:
 ```C
 free(ptr); // This statement frees the space allocated in the memory pointed by ptr.
 ```
-### C realloc():
+### realloc():
 - Syntax:
 ```C
 ptr = realloc(ptr, x);
