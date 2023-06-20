@@ -72,6 +72,7 @@ void combineArraysToPointer(int array1[], int array2[], int length_1, int length
           }
      }
 
+     // Array after sorted
      printf("New array after sorted: ");
      for (int i = 0; i < total_length; i++) {
           printf("%d ", *(ptr + i));
