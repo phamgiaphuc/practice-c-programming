@@ -12,6 +12,9 @@
 - Personal profile: [MyProfile](https://github.com/phamgiaphuc)
 
 ## Project Details
-- [LabC](./LabC/README.md)  - C Laboratory Problems
-- [Pointers](./Pointers/README.md) - C Pointers
-- [School Lectures](./School%20Lectures/)
+
+| Lectures & Projects | Links |
+|---------------------|------|
+| C Laboratory Problems | [LabC](./LabC/README.md)
+| C Pointers | [Pointers](./Pointers/README.md) |
+| School Lectures | [School Lectures](./School%20Lectures/)
