@@ -15,6 +15,7 @@ struct Distance {
 typedef struct Point Triangle;
 typedef struct Point Centroid;
 typedef struct Point Orthocenter;
+typedef struct Point RandomPoint;
 typedef struct Distance Triangle_Side;
 
 // Functions
@@ -27,6 +28,11 @@ float perimeter(Triangle_Side *const);
 float area(Triangle_Side *const, float);
 struct Point centroid(Triangle *const);
 struct Point orthocenter(Triangle *const);
+int isInsideTriangle(Triangle *const, RandomPoint *const, float);
+float areaSection(float, float, float, float, RandomPoint *const);
+int isEquilateral(Triangle_Side *const);
+int isIsosceles(Triangle_Side *const);
+int isRightTriangle(Triangle_Side *const);
 
 int main() {
      // Declare variables
@@ -38,6 +44,7 @@ int main() {
      Centroid center_point2;
      Orthocenter orthocenter_point1;
      Orthocenter orthocenter_point2;
+     RandomPoint random_point[1];
 
      // Input the coordinates of the triangle
      printf("Triangle 1\n");
@@ -82,8 +89,11 @@ int main() {
      printf("\n");
 
      // Calculate the area of given triangles
-     printf("The area of triangle 1 is %.1f\n", area(triangle1_side, triangle1_perimeter));
-     printf("The area of triangle 2 is %.1f\n", area(triangle2_side, triangle1_perimeter));
+     float triangle1_area = 0, triangle2_area = 0;
+     triangle1_area = area(triangle1_side, triangle1_perimeter);
+     triangle2_area = area(triangle2_side, triangle1_perimeter);
+     printf("The area of triangle 1 is %.1f\n", triangle1_area);
+     printf("The area of triangle 2 is %.1f\n", triangle2_area);
      printf("\n");
 
      // The centroid of the triangle (center point)
@@ -99,6 +109,66 @@ int main() {
      orthocenter_point2 = orthocenter(triangle2);
      printf("The orthocenter of triangle 2 is (%.1f, %.1f)\n", orthocenter_point2.x, orthocenter_point2.y);
      printf("\n");
+
+     // Calculate the area of each section -> We will compare with the triangle 1
+     printf("Random Point\n");
+
+     printf("Print the x coordinate for point random point: ");
+     scanf("%f", &random_point[0].x);
+
+     printf("Print the y coordinate for point random point: ");
+     scanf("%f", &random_point[0].y);
+
+     if (isInsideTriangle(triangle1, random_point, triangle1_area) == 1) {
+          printf("The given random point is in the triangle 1!\n");
+     } else {
+          printf("The given random point is not in the triangle 1!\n");
+     }
+     printf("\n");
+
+     // Check whehter the triangle is equilateral
+     if (isEquilateral(triangle1_side) == 1) {
+          printf("Triangle 1 is equilateral!\n");
+     } else {
+          printf("Triangle 1 is not equilateral!\n");
+     }
+
+     if (isEquilateral(triangle2_side) == 1) {
+          printf("Triangle 2 is equilateral!\n");
+     } else {
+          printf("Triangle 2 is not equilateral!\n");
+     }
+
+     printf("\n");
+
+     // Check whehter the triangle is isosceles
+     if (isIsosceles(triangle1_side) == 1) {
+          printf("Triangle 1 is isosceles!\n");
+     } else {
+          printf("Triangle 1 is not isosceles!\n");
+     }
+
+     if (isIsosceles(triangle2_side) == 1) {
+          printf("Triangle 2 is isosceles!\n");
+     } else {
+          printf("Triangle 2 is not isosceles!\n");
+     }
+     printf("\n");
+
+     // Check whether the triangle is right triangle
+     if (isRightTriangle(triangle1_side) == 1) {
+          printf("Triangle 1 is right triangle!\n");
+     } else {
+          printf("Triangle 1 is not right triangle!\n");
+     }
+
+     if (isRightTriangle(triangle2_side) == 1) {
+          printf("Triangle 2 is right triangle!\n");
+     } else {
+          printf("Triangle 2 is not right triangle!\n");
+     }
+     printf("\n");
+
 
      return 0;
 }
@@ -165,6 +235,7 @@ float perimeter(Triangle_Side *const side) {
      return side[0].distance + side[1].distance + side[2].distance;
 }
 
+// Calculate the area of the given triangles
 float area(Triangle_Side *const side, float triangle_perimeter) {
      float half_perimeter = triangle_perimeter / 2;
      return sqrt(half_perimeter * (half_perimeter - side[0].distance) * (half_perimeter - side[1].distance) * (half_perimeter - side[2].distance));
@@ -184,11 +255,55 @@ struct Point centroid(Triangle *const point) {
 struct Point orthocenter(Triangle *const point) {
      struct Point orthocenter_point;
 
-     double slope_1 = (point[1].y - point[2].y) / (point[1].x - point[2].x);
-     double slope_2 = (point[2].y - point[3].y) / (point[2].x - point[3].x);
+     double slope_1 = (point[0].y - point[1].y) / (point[0].x - point[1].x);
+     double slope_2 = (point[1].y - point[2].y) / (point[1].x - point[2].x);
      
-     orthocenter_point.x = (slope_1 * slope_2 * (point[1].y - point[3].y) + slope_2 * (point[1].x + point[2].x) - slope_1 * (point[2].x + point[3].x)) / (2.0 * (slope_2 - slope_1));
-     orthocenter_point.y = (-1.0 / slope_1) * (orthocenter_point.x - (point[1].x + point[2].x) / 2.0) + (point[1].y + point[2].y) / 2.0;
+     orthocenter_point.x = (slope_1 * slope_2 * (point[0].y - point[2].y) + slope_2 * (point[0].x + point[1].x) - slope_1 * (point[1].x + point[2].x)) / (2.0 * (slope_2 - slope_1));
+     orthocenter_point.y = (-1.0 / slope_1) * (orthocenter_point.x - (point[0].x + point[1].x) / 2.0) + (point[0].y + point[1].y) / 2.0;
      
      return orthocenter_point;
+}
+
+// Calculate the area of each section -> We will compare with the triangle 1
+int isInsideTriangle(Triangle *const point, RandomPoint *const randome_point, float triangle_area) {
+     float area_section1, area_section2, area_section3, sum_area_sections;
+
+     area_section1 = areaSection(point[0].x, point[0].y, point[1].x, point[1].y, randome_point);
+     area_section2 = areaSection(point[0].x, point[0].y, point[2].x, point[2].y, randome_point);
+     area_section3 = areaSection(point[1].x, point[1].y, point[2].x, point[2].y, randome_point);
+
+     sum_area_sections = area_section1 + area_section2 + area_section3;
+
+     if (fabs(triangle_area - sum_area_sections) <= 0.0001) {
+          return 1;
+     }
+     return -1;
+}
+
+float areaSection(float x1, float y1, float x2, float y2, RandomPoint *const point) {
+     return fabsf(((x2 - x1) * (point[0].y - y1) - (point[0].x - x1) * (y2 - y1))) / 2;
+}
+
+// Check whehter the triangle is equilateral
+int isEquilateral(Triangle_Side *const side) {
+     if (side[0].distance == side[1].distance && side[0].distance == side[2].distance) {
+          return 1;
+     }
+     return -1;
+}
+
+// Check whehter the triangle is isosceles
+int isIsosceles(Triangle_Side *const side) {
+     if (side[0].distance == side[1].distance || side[0].distance == side[2].distance || side[1].distance == side[2].distance) {
+          return 1;
+     }
+     return -1;
+}
+
+// Check whether the triangle is right triangle
+int isRightTriangle(Triangle_Side *const side) {
+     if (((side[0].distance * side[0].distance)  + (side[1].distance * side[1].distance)) == (side[2].distance * side[2].distance) || ((side[2].distance * side[2].distance) + (side[1].distance * side[1].distance)) == (side[0].distance * side[0].distance) || ((side[0].distance * side[0].distance) + (side[2].distance * side[2].distance)) == ((side[1].distance * side[1].distance))) {
+          return 1;
+     }
+     return -1;
 }
