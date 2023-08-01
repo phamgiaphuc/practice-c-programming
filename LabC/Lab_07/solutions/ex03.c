@@ -7,7 +7,7 @@ char *multiplyComplexNumbers(const char*,const char*);
 int main() {
      // Declare variables
      char *ptr1 = (char *)malloc(100 * sizeof(char));
-     char *ptr2 = (char *)malloc(100 * sizeof(char));
+          char *ptr2 = (char *)malloc(100 * sizeof(char));
 
      // Input the complex numbers
      printf("Input 1st complex number: ");
