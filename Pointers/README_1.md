@@ -203,7 +203,7 @@ int main()
 }
 ```
 
-- Example 2: Passing Pointers to Functions
+- Example 2: Passing Pointers to Functions (https://www.geeksforgeeks.org/function-pointer-in-c/)
 ```C
 #include <stdio.h>
 
@@ -285,14 +285,14 @@ int main() {
      
      // if memory cannot be allocated
      if(ptr == NULL) {
-     printf("Error! memory not allocated.");
-     exit(0);
+          printf("Error! memory not allocated.");
+          exit(0);
      }
 
      printf("Enter elements: ");
      for(i = 0; i < n; ++i) {
-     scanf("%d", ptr + i);
-     sum += *(ptr + i);
+          scanf("%d", ptr + i);
+          sum += *(ptr + i);
      }
 
      printf("Sum = %d\n", sum);
