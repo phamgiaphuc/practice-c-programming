@@ -14,7 +14,7 @@
 | Types | Description | Positions | Examples |
 |-------|-------------|-----------|----------|
 | Control characters | Non-printing character (NPC) | 0 -> 31, 127 | `NUL SOH STX ... DEL`|
-| Printable characters | Printing character (PC) | 33 -> 126 | `! " # $ % ... ~` |
+| Printable characters | Printing character (PC) | 32 -> 126 | `! " # $ % ... ~` |
 | White-space characters | | | `"" "\n" "\t" "\v" "\f" "\r"` |
 | Graphic characters | Readable character (RC) | 33 -> 126 | `! " # $ % ... ~` |
 | Punctuation characters | | 33 -> 47, 58 -> 64, 91 -> 96, 126 | `! " # $ % ... ~`|

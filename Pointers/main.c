@@ -1,19 +1,23 @@
-// Your code goes here...
+// An example for qsort and comparator
 #include <stdio.h>
+#include <stdlib.h>
 
-int main()
-{
-     int *ptrA;
-     int *ptrB;
-     
-     ptrA = (int *)1;
-     ptrB = (int *)2;
-     
-     if(ptrB > ptrA)
-          printf("PtrB is greater than ptrA\n");
-     
-     printf("%p\n", ptrA);
-     printf("%p\n", ptrB);
+// A sample comparator function that is used
+// for sorting an integer array in ascending order.
+// To sort any array for any other data type and/or
+// criteria, all we need to do is write more compare
+// functions. And we can use the same qsort()
+int compare (const void * a, const void * b) {
+     return ( *(int*)a - *(int*) b );
+}
 
-    return(0);
+int main () {
+     int arr[] = {10, 5, 15, 12, 90, 80};
+     int n = sizeof(arr)/sizeof(arr[0]), i;
+
+     qsort (arr, n, sizeof(int), compare);
+
+     for (i=0; i<n; i++)
+          printf ("%d ", arr[i]);
+     return 0;
 }
